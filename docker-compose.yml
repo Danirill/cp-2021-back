@@ -1,0 +1,99 @@
+version: "2"
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+  redisdata:
+  pgadmin-data:
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: compose/nginx/Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/src
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
+    networks:
+      - djangonetwork
+
+  web:
+    build:
+      context: .
+      dockerfile: compose/django/Dockerfile
+    restart: always
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./src:/src
+    expose:
+      - "8000"
+    links:
+      - redis
+      - rabbit
+    env_file:
+      - ./.envs/.django
+    networks:
+      - djangonetwork
+
+  db:
+    build:
+      context: .
+      dockerfile: compose/postgres/Dockerfile
+    restart: always  
+    env_file:
+      - ./.envs/.postgres
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    networks:
+      - djangonetwork
+
+  redis:
+    image: redis:alpine
+    restart: always
+    environment:
+     - REDIS_REPLICATION_MODE=master
+    expose:
+      - "6379"
+    networks:
+      - djangonetwork
+    volumes:
+      - 'redisdata:/data'  
+
+  pgadmin:
+    image: dpage/pgadmin4:5.0
+    restart: always
+    env_file:
+      - './.envs/.pgadmin_env'
+    ports:
+      - "9090:9090"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    links:
+      - "db:pgsql-server"
+    networks:
+      - djangonetwork
+  
+  rabbit:
+    restart: always
+    image: "rabbitmq:3-management"
+    volumes:
+      - ./compose/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - djangonetwork
+
+
+networks:
+  djangonetwork:
+    driver: bridge

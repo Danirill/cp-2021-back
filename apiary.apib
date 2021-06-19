@@ -1,0 +1,1546 @@
+FORMAT: 1A
+HOST: https://api.wellbe.club/api/v1/
+
+# Wellbe
+
+
+
+Документация для первой версии API WELLBE
+
+## Аунтефикация [/users/auth/]
+
+### Проверить доступность Email  [POST /users/auth/sign_up/check_email/] 
+
++ Request (application/json)
+
+        {
+            "email":"dzykin3@gmail.com"
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "status": 200,
+            "details": "Email not already used"
+        }
+
+### Log Out  [POST /users/auth/logout] 
+
++ Headers
+    Authorization: Bearer <refresh-token>
+
++ Request (application/json)
+
+        {
+            "refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwNzc3MTQyMSwianRpIjoiYTdiOGRmMmIzMWRkNDRlNzg5ZWJjYTk4OTY1ZTI5N2QiLCJ1c2VyX2lkIjozfQ.bP6V8tVdJ_ZyuzCLDe8pdzV-FncQDyyMmlVPnjQYZhA"
+        }
+
++ Response 204 (application/json)
+    
+
+
+### Отправить письмо с подтверждением  [POST /users/auth/sign_up/confirm_email/?redirect_url=app.wellbe.club] 
+
++ Request (application/json)
+
+        {
+            "email":"dzykin3@gmail.com"
+        }
+
++ Response 200 (application/json)
+        
+        {
+        }
+        
+### Подтвердить пользователя  [GET /users/auth/sign_up/confirm_email/<confirmation_token>] 
+
+
++ Response 200 (application/json)
+        
+        {
+            "details": "Email confirmed"
+        }        
+
+### Запросить сброс пароля на почту  [POST /users/auth/reset_password?redirect_url=app.wellbe.club] 
+
++ Request (application/json)
+
+        {
+            "email":"dzykin3@gmail.com"
+        }
+
++ Response 200 (application/json)
+        
+        {
+        }
+        
+### Установить новый пароль  [POST /users/auth/reset_password/<reset_password_token>] 
+
++ Request (application/json)
+
+        {
+            "password":"123456789"
+        }
+
++ Response 200 (application/json)
+        
+        {
+        }        
+
+### Зарегистрировать  [POST /users/auth/sign_up/me/?redirect_url=app.wellbe.club] 
+
++ Request (application/json)
+
+        {
+            "email":"dzykin3@gmail.com",
+            "password":"password",
+            "name":"daniil"
+        }
+
++ Response 201 (application/json)
+        
+        {
+            "status": 201,
+            "details": "User successfully created"
+        }
+        
+
+### Вход  [POST /users/auth/sign_in/] 
+
++ Request (application/json)
+
+        {
+            "email":"dzykin3@gmail.com",
+            "password":"password"
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwMzk5OTI4MCwianRpIjoiMjAwYmM5MTc1MTJlNGEwNmEzNTFjYWExMTY2MDk1OGQiLCJ1c2VyX2lkIjoyfQ.Ucoyav1krPMP854iyg6mIE1C1y0jwkLVsGdIjKGArpg",
+            "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAzOTIwMDgwLCJqdGkiOiI2YjY3YmZmMDU5OTg0NzVlOTZjOGUzZjRiODFjOGE4NCIsInVzZXJfaWQiOjJ9.mJtK5Yfp5w1VWvx-XjDihfLqOJvXWLxeKT3xj2C-GiE"
+        }
+
+### Обновление токена  [POST /users/auth/sign_in/refresh/] 
+
++ Headers
+    Authorization: Bearer <refresh-token>
+
++ Request (application/json)
+
+        {
+            "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwMzk5OTI4MCwianRpIjoiMjAwYmM5MTc1MTJlNGEwNmEzNTFjYWExMTY2MDk1OGQiLCJ1c2VyX2lkIjoyfQ.Ucoyav1krPMP854iyg6mIE1C1y0jwkLVsGdIjKGArpg"
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAzOTIwMjY0LCJqdGkiOiJhZjk1ZmQ3YzIwZjM0YzFjOTBlOWI1YWNiOTJmMDA4MyIsInVzZXJfaWQiOjJ9.35XIhJRIib3EDZuljAfsolNrlgsOw39R4wgGvEH1mFo",
+            "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwMzk5OTQ2NCwianRpIjoiMDQ1NmQ0MDQ1MzE5NDljNGFiNzAzY2M0ZjE2NWFjOTYiLCJ1c2VyX2lkIjoyfQ.7na8q5Bw3Hl-PSmrCJ-p7WzKqDiSQI-NcUXV-WPPJHU"
+        }
+
+## Работа с метками [/labels]
+
+### Создание метки  [POST]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Request (application/json)
+
+        {
+            "label_text":"text",
+            "color":1,
+            "hidden_for_client": true
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 5,
+                "label_text": "text",
+                "hidden_for_client": true,
+                "created_at": "2020-11-09T10:49:00.383804Z",
+                "updated_at": "2020-11-09T10:49:00.558143Z",
+                "color": 1
+            }
+        }
+
+### Получить метку  [GET /label/<label_id>]
+
++ Headers
+    Authorization: Bearer <access-token>
+
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 5,
+                "label_text": "text",
+                "hidden_for_client": true,
+                "created_at": "2020-11-09T10:49:00.383804Z",
+                "updated_at": "2020-11-09T10:49:00.558143Z",
+                "color": 1
+            }
+        }
+
+### Редактировать метку  [PATCH /label/<label_id>]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Request (application/json)
+
+        {
+            "label_data":{
+                "label_text":"new text",
+                "color":1,
+                "hidden_for_client": false
+            }
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "status": 200,
+            "details": {
+                "id": 5,
+                "label_text": "new text",
+                "hidden_for_client": false,
+                "created_at": "2020-11-09T10:49:00.383804Z",
+                "updated_at": "2020-11-09T10:51:37.531802Z",
+                "color": 1
+            }
+        }
+### Добавить метку пользователю [POST /label/actionlabeluser]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Request (application/json)
+
+        {
+            "label_id":5,
+            "user_id":1
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 1,
+                "email": "dzykin3@gmail.com",
+                "name": "daniil",
+                "labels": [
+                    {
+                        "id": 2,
+                        "label_text": "Red",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-03T07:29:50.834491Z",
+                        "updated_at": "2020-11-03T07:29:50.834553Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    }
+                ]
+            }
+        }        
+
+### Удалить метку у пользователя [DELETE /label/actionlabeluser]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Request (application/json)
+
+        {
+            "label_id":5,
+            "user_id":1
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 1,
+                "email": "dzykin3@gmail.com",
+                "name": "daniil",
+                "labels": [
+                    {
+                        "id": 2,
+                        "label_text": "Red",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-03T07:29:50.834491Z",
+                        "updated_at": "2020-11-03T07:29:50.834553Z",
+                        "color": 1
+                    }
+                ]
+            }
+        }
+        
+### Добавить метку событию [POST /label/actionlabelevent]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Request (application/json)
+
+        {
+            "label_id":5,
+            "event_id":1
+        }
+
++ Response 200 (application/json)
+        
+    {
+        "details": {
+            "id": 1,
+            "event_slaves": [
+                {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "daniil",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                }
+            ],
+            "event_master": {
+                "id": 1,
+                "email": "dzykin3@gmail.com",
+                "name": "daniil",
+                "labels": [
+                    {
+                        "id": 2,
+                        "label_text": "Red",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-03T07:29:50.834491Z",
+                        "updated_at": "2020-11-03T07:29:50.834553Z",
+                        "color": 1
+                    }
+                ]
+            },
+            "labels": [
+                {
+                    "id": 2,
+                    "label_text": "Red",
+                    "hidden_for_client": true,
+                    "created_at": "2020-11-03T07:29:50.834491Z",
+                    "updated_at": "2020-11-03T07:29:50.834553Z",
+                    "color": 1
+                },
+                {
+                    "id": 5,
+                    "label_text": "new text",
+                    "hidden_for_client": false,
+                    "created_at": "2020-11-09T10:49:00.383804Z",
+                    "updated_at": "2020-11-09T10:51:37.531802Z",
+                    "color": 1
+                }
+            ],
+            "event_name": "ТЕСТ",
+            "start_time": "2020-11-02T13:42:04Z",
+            "stop_time": "2020-11-02T13:42:05Z",
+            "link_to_event": "vk.com",
+            "created_at": "2020-11-02T13:42:13.970713Z",
+            "updated_at": "2020-11-09T11:02:51.380767Z",
+            "is_public": true
+        }
+    }
+
+### Удалить метку у события[DELETE /label/actionlabelevent]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Request (application/json)
+
+        {
+            "label_id":5,
+            "event_id":1
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 1,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "daniil",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "daniil",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 2,
+                        "label_text": "Red",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-03T07:29:50.834491Z",
+                        "updated_at": "2020-11-03T07:29:50.834553Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "ТЕСТ",
+                "start_time": "2020-11-02T13:42:04Z",
+                "stop_time": "2020-11-02T13:42:05Z",
+                "link_to_event": "vk.com",
+                "created_at": "2020-11-02T13:42:13.970713Z",
+                "updated_at": "2020-11-09T11:04:00.101762Z",
+                "is_public": true
+            }
+        }        
+        
+## Цвета [/colors]
+
+### Получить все цвета [GET /colors]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Response 200 (application/json)
+        
+        {
+            "details": [
+                {
+                    "id": 1,
+                    "name": "Red",
+                    "hex_string": "#FF0000"
+                }
+            ]
+        }
+        
+## События [/events]
+
+### Создание события  [POST /events/create/]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Request (application/json)
+
+        {
+            "start_time":"2020-12-01T11:00+05:00",
+            "stop_time":"2020-12-01T12:00+05:00",
+            "external_link_to_event":"https://vk.com",
+            "is_public":true,
+            "event_master": 1,
+            "event_name":"4234253345",
+            "event_slaves":[1],
+            "labels":[1] 
+        }
+
++ Response 200 (application/json)
+        
+        {
+            "event": {
+                "id": 7,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "wellbe.app.dev@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 1,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-25T19:56:32.298194Z",
+                                "updated_at": "2020-11-25T19:56:32.298219Z",
+                                "color": 1
+                            }
+                        ],
+                        "coach": 1
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "wellbe.app.dev@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 1,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-25T19:56:32.298194Z",
+                            "updated_at": "2020-11-25T19:56:32.298219Z",
+                            "color": 1
+                        }
+                    ],
+                    "coach": 1
+                },
+                "labels": [
+                    {
+                        "id": 1,
+                        "label_text": "Red",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-25T19:56:32.298194Z",
+                        "updated_at": "2020-11-25T19:56:32.298219Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "4234253345",
+                "start_time": "2020-12-01T06:00:00Z",
+                "stop_time": "2020-12-01T07:00:00Z",
+                "link_to_daily": "V6IbF1D0I0mpZTDpmWZg",
+                "external_link_to_event": "https://vk.com",
+                "created_at": "2020-11-26T07:06:54.696926Z",
+                "updated_at": "2020-11-26T07:09:10.196126Z",
+                "is_public": true
+            }
+        }
+
+### Редактирование события  [PATCH /events/event/<event_id>]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Request (application/json)
+
+    {
+        
+        "start_time":"2020-12-01T12:00",
+        "stop_time":"2020-12-01T13:00",
+        "link_to_event":"https://vk21.com",
+        "is_public":true,
+        "event_master":1,
+        "event_name":"event_na4234me",
+        "event_slaves":[1],
+        "labels":[5,6]
+             
+    }
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 24,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 6,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-11T13:21:45.135601Z",
+                        "updated_at": "2020-11-11T13:21:45.135662Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "event_name",
+                "start_time": "2020-12-01T12:00:00Z",
+                "stop_time": "2020-12-01T13:00:00Z",
+                "link_to_event": "https://vk.com",
+                "created_at": "2020-11-12T08:33:33.980006Z",
+                "updated_at": "2020-11-12T08:33:34.196357Z",
+                "is_public": true
+            }
+        }
+
+### Удалить событие  [DELETE /events/event/<event_id>]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "success":True
+            }
+        }
+
+### Удалить пользователей из события  [DELETE /events/event/<event_id>/remove_users]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Request (application/json)
+
+    {
+        "event_slaves":[1]
+    }    
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 24,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 6,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-11T13:21:45.135601Z",
+                        "updated_at": "2020-11-11T13:21:45.135662Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "event_name",
+                "start_time": "2020-12-01T12:00:00Z",
+                "stop_time": "2020-12-01T13:00:00Z",
+                "link_to_event": "https://vk.com",
+                "created_at": "2020-11-12T08:33:33.980006Z",
+                "updated_at": "2020-11-12T08:33:34.196357Z",
+                "is_public": true
+            }
+        }
+        
+### Добавить пользователей в событие  [POST /events/event/<event_id>/add_users]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Request (application/json)
+
+    {
+        "event_slaves":[1]
+    }    
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 24,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 6,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-11T13:21:45.135601Z",
+                        "updated_at": "2020-11-11T13:21:45.135662Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "event_name",
+                "start_time": "2020-12-01T12:00:00Z",
+                "stop_time": "2020-12-01T13:00:00Z",
+                "link_to_event": "https://vk.com",
+                "created_at": "2020-11-12T08:33:33.980006Z",
+                "updated_at": "2020-11-12T08:33:34.196357Z",
+                "is_public": true
+            }
+        }
+        
+### Удалить метки из события  [DELETE /events/event/<event_id>/remove_labels]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Request (application/json)
+
+    {
+        "labels":[1]
+    }    
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 24,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 6,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-11T13:21:45.135601Z",
+                        "updated_at": "2020-11-11T13:21:45.135662Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "event_name",
+                "start_time": "2020-12-01T12:00:00Z",
+                "stop_time": "2020-12-01T13:00:00Z",
+                "link_to_event": "https://vk.com",
+                "created_at": "2020-11-12T08:33:33.980006Z",
+                "updated_at": "2020-11-12T08:33:34.196357Z",
+                "is_public": true
+            }
+        }
+        
+### Добавить метки в событие  [POST /events/event/<event_id>/add_labels]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Request (application/json)
+
+    {
+        "labels":[1]
+    }    
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+                "id": 24,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 6,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-11T13:21:45.135601Z",
+                        "updated_at": "2020-11-11T13:21:45.135662Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "event_name",
+                "start_time": "2020-12-01T12:00:00Z",
+                "stop_time": "2020-12-01T13:00:00Z",
+                "link_to_event": "https://vk.com",
+                "created_at": "2020-11-12T08:33:33.980006Z",
+                "updated_at": "2020-11-12T08:33:34.196357Z",
+                "is_public": true
+            }
+        }
+### Получить событие (по ID) [GET /events/event/<event_id>]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Response 200 (application/json)
+    {
+        "details": {
+            "id": 1,
+            "event_slaves": [
+                {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "daniil",
+                    "labels": [],
+                    "coach": null,
+                    "is_confirmed": false
+                },
+                {
+                    "id": 2,
+                    "email": "kanij40684@hmnmw.com",
+                    "name": "daniil",
+                    "labels": [],
+                    "coach": null,
+                    "is_confirmed": false
+                },
+                {
+                    "id": 4,
+                    "email": "app@mail.com",
+                    "name": "dani14il",
+                    "labels": [],
+                    "coach": null,
+                    "is_confirmed": false
+                },
+                {
+                    "id": 3,
+                    "email": "app@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 1,
+                            "label_text": "Плохой",
+                            "hidden_for_client": true,
+                            "created_at": "2020-12-10T14:43:27.435850Z",
+                            "updated_at": "2020-12-10T14:43:27.435935Z",
+                            "color": 1
+                        }
+                    ],
+                    "coach": 2,
+                    "is_confirmed": false
+                },
+                {
+                    "id": 5,
+                    "email": "dzykin34@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 1,
+                            "label_text": "Плохой",
+                            "hidden_for_client": true,
+                            "created_at": "2020-12-10T14:43:27.435850Z",
+                            "updated_at": "2020-12-10T14:43:27.435935Z",
+                            "color": 1
+                        }
+                    ],
+                    "coach": 1,
+                    "is_confirmed": true
+                }
+            ],
+            "event_master": {
+                "id": 1,
+                "email": "dzykin3@gmail.com",
+                "name": "daniil",
+                "labels": [],
+                "coach": null,
+                "is_confirmed": false
+            },
+            "labels": [
+                {
+                    "id": 1,
+                    "label_text": "Плохой",
+                    "hidden_for_client": true,
+                    "created_at": "2020-12-10T14:43:27.435850Z",
+                    "updated_at": "2020-12-10T14:43:27.435935Z",
+                    "color": 1
+                }
+            ],
+            "event_name": "Event",
+            "start_time": "2020-12-17T07:42:06Z",
+            "stop_time": "2020-12-17T07:42:07Z",
+            "link_to_daily": "2BHal0oNimdxzEkTModx",
+            "external_link_to_event": "https://vk.com",
+            "created_at": "2020-12-17T07:42:14.099136Z",
+            "updated_at": "2020-12-17T07:42:14.099147Z",
+            "is_public": true
+        }
+    }
+
+### Получить все события пользователя (по ID) [GET /events/get_user_events/<User_ID>]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Response 200 (application/json)
+        
+        {
+            "details": {
+            "master_events":[
+                {
+                "id": 24,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 6,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-11T13:21:45.135601Z",
+                        "updated_at": "2020-11-11T13:21:45.135662Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "event_name",
+                "start_time": "2020-12-01T12:00:00Z",
+                "stop_time": "2020-12-01T13:00:00Z",
+                "link_to_event": "https://vk.com",
+                "created_at": "2020-11-12T08:33:33.980006Z",
+                "updated_at": "2020-11-12T08:33:34.196357Z",
+                "is_public": true
+            }
+            ],
+            "slave_events":[
+                {
+                "id": 24,
+                "event_slaves": [
+                    {
+                        "id": 1,
+                        "email": "dzykin3@gmail.com",
+                        "name": "Даниил Вадимович Зыкин",
+                        "labels": [
+                            {
+                                "id": 2,
+                                "label_text": "Red",
+                                "hidden_for_client": true,
+                                "created_at": "2020-11-03T07:29:50.834491Z",
+                                "updated_at": "2020-11-03T07:29:50.834553Z",
+                                "color": 1
+                            }
+                        ]
+                    }
+                ],
+                "event_master": {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 2,
+                            "label_text": "Red",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-03T07:29:50.834491Z",
+                            "updated_at": "2020-11-03T07:29:50.834553Z",
+                            "color": 1
+                        }
+                    ]
+                },
+                "labels": [
+                    {
+                        "id": 5,
+                        "label_text": "new text",
+                        "hidden_for_client": false,
+                        "created_at": "2020-11-09T10:49:00.383804Z",
+                        "updated_at": "2020-11-09T10:51:37.531802Z",
+                        "color": 1
+                    },
+                    {
+                        "id": 6,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-11T13:21:45.135601Z",
+                        "updated_at": "2020-11-11T13:21:45.135662Z",
+                        "color": 1
+                    }
+                ],
+                "event_name": "event_name",
+                "start_time": "2020-12-01T12:00:00Z",
+                "stop_time": "2020-12-01T13:00:00Z",
+                "link_to_event": "https://vk.com",
+                "created_at": "2020-11-12T08:33:33.980006Z",
+                "updated_at": "2020-11-12T08:33:34.196357Z",
+                "is_public": true
+            }
+            ]
+            }
+        }
+
+### Получить все события пользователя (по токену) [GET /events/get_user_events]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Response 200 (application/json)
+        
+        {
+    "event_slave": [
+        {
+            "id": 1,
+            "event_slaves": [
+                {
+                    "id": 11,
+                    "email": "lodoha9407@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 12,
+                    "email": "nejil16868@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 10,
+                    "email": "gaget51869@x1post.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 13,
+                    "email": "kofad53609@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 14,
+                    "email": "ribajif826@x1post.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 15,
+                    "email": "dnovgor@mail.ru",
+                    "name": "Dima",
+                    "labels": []
+                },
+                {
+                    "id": 1,
+                    "email": "talisman701@gmail.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 16,
+                    "email": "rarev20694@x1post.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": []
+                },
+                {
+                    "id": 9,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Daniil",
+                    "labels": []
+                }
+            ],
+            "event_master": {
+                "id": 9,
+                "email": "dzykin3@gmail.com",
+                "name": "Daniil",
+                "labels": []
+            },
+            "labels": [
+                {
+                    "id": 1,
+                    "label_text": "siufyuisaewr",
+                    "hidden_for_client": true,
+                    "created_at": "2020-11-13T16:26:50.614791Z",
+                    "updated_at": "2020-11-13T16:26:50.614816Z",
+                    "color": 1
+                }
+            ],
+            "event_name": "ТЕСТ",
+            "start_time": "2020-11-13T16:26:31Z",
+            "stop_time": "2020-11-13T16:26:33Z",
+            "link_to_event": "https://vk.com",
+            "created_at": "2020-11-13T16:27:07.481487Z",
+            "updated_at": "2020-11-13T16:27:07.481503Z",
+            "is_public": true
+        },
+        {
+            "id": 2,
+            "event_slaves": [
+                {
+                    "id": 11,
+                    "email": "lodoha9407@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 12,
+                    "email": "nejil16868@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 10,
+                    "email": "gaget51869@x1post.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 13,
+                    "email": "kofad53609@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 14,
+                    "email": "ribajif826@x1post.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 15,
+                    "email": "dnovgor@mail.ru",
+                    "name": "Dima",
+                    "labels": []
+                },
+                {
+                    "id": 1,
+                    "email": "talisman701@gmail.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 16,
+                    "email": "rarev20694@x1post.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": []
+                },
+                {
+                    "id": 9,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Daniil",
+                    "labels": []
+                },
+                {
+                    "id": 17,
+                    "email": "wellbe.app.dev@gmail.com",
+                    "name": "Wellbe",
+                    "labels": []
+                }
+            ],
+            "event_master": {
+                "id": 17,
+                "email": "wellbe.app.dev@gmail.com",
+                "name": "Wellbe",
+                "labels": []
+            },
+            "labels": [
+                {
+                    "id": 1,
+                    "label_text": "siufyuisaewr",
+                    "hidden_for_client": true,
+                    "created_at": "2020-11-13T16:26:50.614791Z",
+                    "updated_at": "2020-11-13T16:26:50.614816Z",
+                    "color": 1
+                }
+            ],
+            "event_name": "DAILY",
+            "start_time": "2020-11-13T16:34:04Z",
+            "stop_time": "2020-11-13T16:34:06Z",
+            "link_to_event": "https://wellbe.daily.co/SCDUwFWBBeTH2uoZb5PB",
+            "created_at": "2020-11-13T16:34:09.454969Z",
+            "updated_at": "2020-11-13T16:34:09.454986Z",
+            "is_public": true
+        }
+    ],
+    "event_master": [
+        {
+            "id": 1,
+            "event_slaves": [
+                {
+                    "id": 11,
+                    "email": "lodoha9407@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 12,
+                    "email": "nejil16868@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 10,
+                    "email": "gaget51869@x1post.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 13,
+                    "email": "kofad53609@tawtar.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 14,
+                    "email": "ribajif826@x1post.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 15,
+                    "email": "dnovgor@mail.ru",
+                    "name": "Dima",
+                    "labels": []
+                },
+                {
+                    "id": 1,
+                    "email": "talisman701@gmail.com",
+                    "name": "Павел",
+                    "labels": []
+                },
+                {
+                    "id": 16,
+                    "email": "rarev20694@x1post.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": []
+                },
+                {
+                    "id": 9,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Daniil",
+                    "labels": []
+                }
+            ],
+            "event_master": {
+                "id": 9,
+                "email": "dzykin3@gmail.com",
+                "name": "Daniil",
+                "labels": []
+            },
+            "labels": [
+                {
+                    "id": 1,
+                    "label_text": "siufyuisaewr",
+                    "hidden_for_client": true,
+                    "created_at": "2020-11-13T16:26:50.614791Z",
+                    "updated_at": "2020-11-13T16:26:50.614816Z",
+                    "color": 1
+                }
+            ],
+            "event_name": "ТЕСТ",
+            "start_time": "2020-11-13T16:26:31Z",
+            "stop_time": "2020-11-13T16:26:33Z",
+            "link_to_event": "https://vk.com",
+            "created_at": "2020-11-13T16:27:07.481487Z",
+            "updated_at": "2020-11-13T16:27:07.481503Z",
+            "is_public": true
+        }
+    ]
+}
+
+### Получить ближайшее событие пользователя [GET /events/get_user_closest_event/<int:user_id>]
+
++ Headers
+    Authorization: Bearer <access-token>        
+
++ Response 200 (application/json)
+        
+        {
+        "closest_event": {
+            "id": 3,
+            "event_slaves": [
+                {
+                    "id": 1,
+                    "email": "dzykin3@gmail.com",
+                    "name": "Даниил Вадимович Зыкин",
+                    "labels": [
+                        {
+                            "id": 1,
+                            "label_text": "Плохой",
+                            "hidden_for_client": true,
+                            "created_at": "2020-11-16T11:31:43.520426Z",
+                            "updated_at": "2020-11-16T11:31:43.520468Z",
+                            "color": 1
+                        }
+                    ]
+                }
+            ],
+            "event_master": {
+                "id": 1,
+                "email": "dzykin3@gmail.com",
+                "name": "Даниил Вадимович Зыкин",
+                "labels": [
+                    {
+                        "id": 1,
+                        "label_text": "Плохой",
+                        "hidden_for_client": true,
+                        "created_at": "2020-11-16T11:31:43.520426Z",
+                        "updated_at": "2020-11-16T11:31:43.520468Z",
+                        "color": 1
+                    }
+                ]
+            },
+            "labels": [
+                {
+                    "id": 1,
+                    "label_text": "Плохой",
+                    "hidden_for_client": true,
+                    "created_at": "2020-11-16T11:31:43.520426Z",
+                    "updated_at": "2020-11-16T11:31:43.520468Z",
+                    "color": 1
+                }
+            ],
+            "event_name": "ТЕСТ ближайшего",
+            "start_time": "2020-11-21T19:30:39Z",
+            "stop_time": "2020-11-24T19:30:43Z",
+            "link_to_event": "https://wellbe.daily.co/SCDUwFWBBeTH2uoZb5PB",
+            "created_at": "2020-11-19T19:30:52.716931Z",
+            "updated_at": "2020-11-19T19:30:52.716981Z",
+            "is_public": false
+        }
+    }
+    
+## Пользователи [/users/]
+
+### Получить информацию о пользователе (по ID) [GET /info/<user_id>]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Response 200 (application/json)
+    {
+    "id": 1,
+    "email": "wellbe.app.dev@gmail.com",
+    "name": "Даниил Вадимович Зыкин",
+    "labels": [
+        {
+            "id": 1,
+            "label_text": "Red",
+            "hidden_for_client": true,
+            "created_at": "2020-11-25T19:56:32.298194Z",
+            "updated_at": "2020-11-25T19:56:32.298219Z",
+            "color": 1
+        }
+    ],
+    "coach": 1
+}
+
+### Получить всех пользователей (Для Таблицы) [GET users/info/table?limit=1&page=1&only_my_clients=False&q=Даниил&role_id=1]
+
++ Headers
+    Authorization: Bearer <access-token>
+
++ Response 200 (application/json)
+    {
+        "role_id": 2,
+        "page": 1,
+        "limit": 1,
+        "only_my_clients": false,
+        "q": "Даниил",
+        "data": [
+            {
+                "user_id": 3,
+                "user_name": "Даниил Вадимович Зыкин",
+                "user_registration_date": "2020-12-10T14:37:02.723842Z",
+                "user_phone": "89321266673",
+                "coach_id": 2,
+                "coach_name": "daniil",
+                "role": "admin",
+                "role_id": 2
+            }
+        ]
+    }
