@@ -700,13 +700,21 @@ class SurveyGetRecommendationsSimple(APIView):
 
         detailed_recommendation.labels.add(*labels)
 
-        try:
-            name = SurveySessionAnswer.objects.get(survey_session=session, key='name')
-            detailed_recommendation.data = {
-                "name": name
-            }
-        except SurveySessionAnswer.DoesNotExist:
-            pass
+        MINIMUM_ANALYSES_RECOMMENDATIONS_COUNT = 3
+        recommendated_analyses = []
+        # Добавляем рекомендации для анализов
+        for e in reversed(list(detailed_recommendation.main_positions.all())):
+            if len(recommendated_analyses) < MINIMUM_ANALYSES_RECOMMENDATIONS_COUNT:
+                recommendated_analyses.append({
+                    "char_code": e.product.product_charcode,
+                    "product_name": e.product.product_name
+                })
+            else:
+                break
+
+        detailed_recommendation.data = {
+            "recommendated_analyses": recommendated_analyses
+        }
 
         detailed_recommendation.save()
 

@@ -208,23 +208,14 @@ LOGGING = {
     },
 }
 
-FIRST_PROMOCODE_REMIND_SECONDS = int(os.environ.get("FIRST_PROMOCODE_REMIND_SECONDS"))
-
-DAILY_CO_TOKEN = os.environ.get("DAILY_CO_TOKEN")
-TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 AUTH_USER_MODEL = 'users.User'
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 SOCIAL_SECRET = os.environ.get('SOCIAL_SECRET')
 FRONTEND_URL = os.environ.get("FRONTEND_URL")
-CLOUDPAYMENTS_PUBLIC_KEY = os.environ.get("CLOUDPAYMENTS_PUBLIC_KEY")  # Public ID
-CLOUDPAYMENTS_SECRET_KEY = os.environ.get("CLOUDPAYMENTS_SECRET_KEY")  # пароль для API
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = os.environ.get("EMAIL_PORT")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASSWORD")
-SMS_RU_API_TOKEN = os.environ.get("SMS_RU_API_TOKEN")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = 'default from email'
@@ -281,15 +272,4 @@ SIMPLE_JWT = {
     'TOKEN_TYPE_CLAIM': 'token_type',
 
     'JTI_CLAIM': 'jti',
-}
-
-# My variables
-
-EXPERT_PROFILE_DEFAULT_LIMIT = 3
-DELIVERY_DEFAULT_COST = 299
-TARIFFS = {
-            1: 3529,
-            3: 3136,
-            6: 2940,
-            12: 2823
 }
